@@ -3,7 +3,7 @@ class Monster {
 	var $__SERVER	= 'localhost';
 	var $__USER		= 'root';
 	var $__PASS		= '';
-	var $__DB		= 'agenda';
+	var $__DB		= 'afiliados';
 	var $__CX;
 	var $__NUMERACION = array(1=>'UN','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE','DIEZ','ONCE','DOCE','TRECE','CATORCE','QUINCE');
 	var $__BUSCAR;
@@ -24,6 +24,38 @@ class Monster {
 			$this->__CARGAR	= $this->ENCODE(array_slice($_REQUEST,1,-1));
 			$this->__ACTUALIZAR = $this->ENCODE(array_slice($_REQUEST,0,-1));
 		}
+	}
+	
+	function LOADCSV($filename='',$table=NULL, $delimiter=',', $header=NULL){
+		if(!file_exists($filename) || !is_readable($filename)){
+			return FALSE;
+		}
+		$data = array();
+		if (($handle = fopen($filename, 'r')) !== FALSE)
+		{
+			while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE)
+			{
+				foreach($row as $key=>$value){
+					$row[$key]= trim($value);
+				}	
+				if(!$header){
+					$header = $row;
+				}else{
+					if(!$table){
+						$__QUERY='INSERT INTO '.$table.' ('.implode(',',$header).') VALUES ("'.implode('","',$row).'");';
+						$__FEED = $this->__CX->query($__QUERY);
+						if($__FEED){
+							echo '<p><b>CARGADO:</b><i>'.$__QUERY.'</i>  <b>...OK!</b></p>';
+						}else{
+							echo '<p><b>ERROR:</b><i>'.$__QUERY.'</i>  <b>'.$this->__CX->error.'</b></p>';
+						}
+					}
+					//$data[] = array_combine($header, $row);
+				}
+			}
+			fclose($handle);
+		}
+		return $data;
 	}
 	
 	function ENCODE($_VAR){
