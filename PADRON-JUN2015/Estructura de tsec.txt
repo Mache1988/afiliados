@@ -1,0 +1,6 @@
+cod_seccion
+cod_distrito
+Descripcion
+nada
+nada
+nada

@@ -1,0 +1,8 @@
+cod_Circuito
+cod_Seccion
+Descripcion (vacío)
+cod_Municipio
+Distrito
+nada
+nada
+nada

@@ -1,0 +1,14 @@
+tsec_codigo,		seccion
+tcir_codigo,		circuito
+padr_sexo,		sexo
+padr_clasep,		clase
+padr_matric,		matricula
+padr_apelli,		apellido
+padr_nombre,		nombre
+padr_domici,		domicilio
+padr_numero,		domicilio.numero
+padr_puerta,		domicilio.puerta
+padr_analfa,		analfabeto
+tprf_codigo,		profesion
+ttdo_codigo,		tipo de documento
+pafi_fecafi		Fecha de afiliacion

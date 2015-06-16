@@ -1,0 +1,5 @@
+cod_Municipio
+cod_seccion
+Descripcion
+cod_distrito
+nada

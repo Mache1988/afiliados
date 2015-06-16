@@ -20,15 +20,26 @@ class Monster {
 		if($this->__CX->connect_error){
 			echo '__NO SE PUEDE ESTABLECER CONEXION A LA BASE DE DATOS__<br>';
 		}else{
-			$this->__BUSCAR = $this->TRIM_ARRAY($this->ENCODE(array_slice($_REQUEST,0,-1)));
+			/*$this->__BUSCAR = $this->TRIM_ARRAY($this->ENCODE(array_slice($_REQUEST,0,-1)));
 			$this->__CARGAR	= $this->ENCODE(array_slice($_REQUEST,1,-1));
-			$this->__ACTUALIZAR = $this->ENCODE(array_slice($_REQUEST,0,-1));
+			$this->__ACTUALIZAR = $this->ENCODE(array_slice($_REQUEST,0,-1));*/
 		}
 	}
 	
 	function LOADCSV($filename='',$table=NULL, $delimiter=',', $header=NULL){
 		if(!file_exists($filename) || !is_readable($filename)){
+			echo '<b>ERROR:</b> <i>No se pudo acceder al archivo.</i>';
 			return FALSE;
+		}
+		if($header=='AUTO'){
+			$header = array();
+			$__QUERY = 'SHOW COLUMNS FROM '.$table.';';
+			$__FEED = $this->__CX->query($__QUERY);
+			if($__FEED->num_rows){
+				while ($__DATA = $__FEED->fetch_assoc()){
+					$header[]	= $__DATA['Field'];
+				}
+			}
 		}
 		$data = array();
 		if (($handle = fopen($filename, 'r')) !== FALSE)
@@ -41,21 +52,21 @@ class Monster {
 				if(!$header){
 					$header = $row;
 				}else{
-					if(!$table){
-						$__QUERY='INSERT INTO '.$table.' ('.implode(',',$header).') VALUES ("'.implode('","',$row).'");';
-						$__FEED = $this->__CX->query($__QUERY);
-						if($__FEED){
-							echo '<p><b>CARGADO:</b><i>'.$__QUERY.'</i>  <b>...OK!</b></p>';
-						}else{
-							echo '<p><b>ERROR:</b><i>'.$__QUERY.'</i>  <b>'.$this->__CX->error.'</b></p>';
-						}
+					$__QUERY='INSERT INTO '.$table.' ('.implode(',',$header).') VALUES ("'.implode('","',$row).'");';
+					$__FEED = $this->__CX->query($__QUERY);
+					if($__FEED){
+						echo '<p><b>CARGADO:</b><i>'.$__QUERY.'</i>  <b>...OK!</b></p>';
+					}else{
+						echo '<p><b>ERROR:</b><i>'.$__QUERY.'</i>  <b>'.$this->__CX->error.'</b></p>';
 					}
+				
 					//$data[] = array_combine($header, $row);
 				}
 			}
 			fclose($handle);
 		}
-		return $data;
+		echo '<b>COMPLETADO:</b> <i>EXITOSO.</i>';
+		return TRUE;
 	}
 	
 	function ENCODE($_VAR){

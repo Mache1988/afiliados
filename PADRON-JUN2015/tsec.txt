@@ -1,0 +1,23 @@
+    1|17|CAPITAL||||
+    2|17|LA CALDERA||||
+    3|17|GÜEMES||||
+    4|17|METAN||||
+    5|17|ANTA||||
+    6|17|RIVADAVIA||||
+    7|17|ORAN||||
+    8|17|SAN MARTIN||||
+    9|17|IRUYA||||
+   10|17|SANTA VICTORIA||||
+   11|17|CERRILLOS||||
+   12|17|CHICOANA||||
+   13|17|LA VIÑA||||
+   14|17|GUACHIPAS||||
+   15|17|ROS.DE LA FRONTERA||||
+   16|17|LA CANDELARIA||||
+   17|17|CAFAYATE||||
+   18|17|SAN CARLOS||||
+   19|17|MOLINOS||||
+   20|17|CACHI||||
+   21|17|ROSARIO DE LERMA||||
+   22|17|LA POMA||||
+   23|17|LOS ANDES||||
