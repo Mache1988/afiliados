@@ -45,25 +45,25 @@ class Monster {
 		if (($handle = fopen($filename, 'r')) !== FALSE)
 		{
 			while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE)
-			{
-				foreach($row as $key=>$value){
-					$row[$key]= trim($value);
-				}	
+			{	
 				if(!$header){
 					$header = $row;
 				}else{
-					$__QUERY='INSERT INTO '.$table.' ('.implode(',',$header).') VALUES ("'.implode('","',$row).'");';
+					$data[] = array_combine($header, $row);
+				}
+			}
+			fclose($handle);
+			if($data){
+				foreach($this->ENCODE($data) as $VALUE){
+					$__QUERY='INSERT INTO '.$table.' ('.implode(',',array_keys($VALUE)).') VALUES ("'.implode('","',$VALUE).'");';
 					$__FEED = $this->__CX->query($__QUERY);
 					if($__FEED){
 						echo '<p><b>CARGADO:</b><i>'.$__QUERY.'</i>  <b>...OK!</b></p>';
 					}else{
 						echo '<p><b>ERROR:</b><i>'.$__QUERY.'</i>  <b>'.$this->__CX->error.'</b></p>';
 					}
-				
-					//$data[] = array_combine($header, $row);
 				}
 			}
-			fclose($handle);
 		}
 		echo '<b>COMPLETADO:</b> <i>EXITOSO.</i>';
 		return TRUE;
@@ -119,6 +119,21 @@ class Monster {
 			}
 		}
 		return $_TEMP;
+	}
+	
+	function MOSTRAR($__QUERY){
+		$__RETURN	= array();
+		$__FEED = $this->__CX->query($__QUERY);
+		if($__FEED->num_rows){
+			while ($__DATA = $__FEED->fetch_assoc()){
+				$__RETURN[]	= $__DATA;
+			}
+		}
+		if(current($__RETURN)){
+			return $this->DECODE($__RETURN);
+		}else{
+			return 0;
+		}
 	}
 	
 	function BUSCAR(){

@@ -3,16 +3,16 @@ text-transform: uppercase;
 font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
-#RESULTADO tr:nth-child(2n+2){
-background-color:#0066FF;
-}
-
-#RESULTADO tr:nth-child(2n+3){
+tr:nth-child(2n+2){
 background-color:#FFFFFF;
 }
 
-#RESULTADO tr:nth-child(n+2):hover{
-background-color:#99CCFF;
+tr:nth-child(2n+3){
+background-color:#009933;
+}
+
+tr:nth-child(n+2):hover{
+background-color:#66FF66;
 }
 
 th,td {
