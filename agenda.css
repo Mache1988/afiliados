@@ -1,0 +1,154 @@
+body {
+text-transform: uppercase;
+font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#RESULTADO tr:nth-child(2n+2){
+background-color:#0066FF;
+}
+
+#RESULTADO tr:nth-child(2n+3){
+background-color:#FFFFFF;
+}
+
+#RESULTADO tr:nth-child(n+2):hover{
+background-color:#99CCFF;
+}
+
+th,td {
+border: 1px solid #B8B8B8;
+text-align: center;
+margin-left: auto;
+margin-right: auto;
+border-radius:5px;
+}
+
+textarea {
+width: 10em;
+height: 7em;
+border-radius:5px;
+margin:2px;
+}
+
+input {
+height: 1.5em;
+border-radius:5px;
+}
+
+input[name='AUTOR']{
+width:3em;
+}
+
+input[name='ID']{
+width:3em;
+}
+
+button {
+border-radius:5px;
+font-family:"Arial Black", Gadget, sans-serif;
+}
+
+#frameA{
+display:inline-block;
+border-radius:5px;
+width: 750px;
+height: 100%;
+background-color: black;
+}
+
+#field1{
+border-radius:2em 0em 0em 2em;
+float: left;
+width: 150px;
+margin: 5px;
+height: 60%;
+background-color: orange;
+}
+
+#field2{
+float: left;
+width: 200px;
+margin: 5px;
+height: 60%;
+background-color: orange;
+}
+#field3{
+float: left;
+width: 200px;
+margin: 5px;
+height: 60%;
+background-color: orange;
+}
+#field4{
+border-radius:0em 2em 2em 0em;
+float: left;
+width: 150px;
+margin: 5px;
+height: 60%;
+background-color: orange;
+}
+
+#ID{
+border-radius:2px 0px 0px 2px;
+float: left;
+width: 20px;
+margin: 2px;
+height: 80%;
+background-color: orange;
+}
+
+#ESTABLECIMIENTO{
+float: left;
+width: 200px;
+margin: 2px;
+height: 80%;
+background-color: orange;
+}
+
+#TELEFONO{
+float: left;
+width: 200px;
+margin: 2px;
+height: 80%;
+background-color: orange;
+}
+
+#RESPONSABLE{
+float: left;
+width: 200px;
+margin: 2px;
+height: 80%;
+background-color: orange;
+}
+
+#DIRECCION{
+float: left;
+width: 200px;
+margin: 2px;
+height: 80%;
+background-color: orange;
+}
+
+#OBSERVACIONES{
+float: left;
+width: 200px;
+margin: 2px;
+height: 80%;
+background-color: orange;
+}
+
+#AUTOR{
+float: left;
+width: 100px;
+margin: 2px;
+height: 80%;
+background-color: orange;
+}
+
+#CREADO{
+border-radius:0px 2px 2px 0px;
+float: left;
+width: 100px;
+margin: 2px;
+background-color: orange;
+}
