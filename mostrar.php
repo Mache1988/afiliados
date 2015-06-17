@@ -13,22 +13,21 @@
 <?php
 require 'monster.php';
 $__MON		= new Monster();
-$__QUERY = 'SELECT * FROM afiliados CROSS JOIN documento USING (documento);';
-$__RESULT= $__MON->MOSTRAR($__QUERY);
+// afiliados.SECCION, afiliados.CIRCUITO, afiliados.SEXO, afiliados.CLASE, afiliados.ID, afiliados.APELLIDO, afiliados.NOMBRE, afiliados.CALLE, afiliados.NUMERO, afiliados.DEPARTAMENTO, afiliados.ANALFABETO, afiliados.PROFESION, afiliados.DOCUMENTO, afiliados.FECHA
+// replace afiliados.PROFESION , afiliados.DOCUMENTO, afiliados.SECCION
+$__RESULT= $__MON->MOSTRAR();
 if($__RESULT){
 	echo '<table><tr>';
 	echo '<th>'.implode('</th><th>',array_keys(current($__RESULT))).'</th>';
 	foreach($__RESULT as $ROW){
 		$MAP = $ROW;
-		/*$DIR = explode(',',$ROW['DIRECCION']);
-		$DIR = preg_replace('/\s/','+',$DIR);
-		$MAP['DIRECCION'] = '<a href=\'https://www.google.com/maps/place/'.$DIR[0].',+Salta,+Argentina\' target=\'_blank\'>'.$ROW['DIRECCION'].'</a>';
-		*/echo '<tr>';
+		echo '<tr>';
 		echo '<td>'.implode('</td><td>',$MAP).'</td>';
 		echo '</tr>';
 	}
 	echo '</tr></table>';
 }
+
 ?>
 </body>
 </html>

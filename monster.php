@@ -54,19 +54,115 @@ class Monster {
 			}
 			fclose($handle);
 			if($data){
+				$__ERROR = 0;
+				$__QUERY = 'DELETE FROM '.$table;
+				$__FEED = $this->__CX->query($__QUERY);
 				foreach($this->ENCODE($data) as $VALUE){
 					$__QUERY='INSERT INTO '.$table.' ('.implode(',',array_keys($VALUE)).') VALUES ("'.implode('","',$VALUE).'");';
 					$__FEED = $this->__CX->query($__QUERY);
 					if($__FEED){
-						echo '<p><b>CARGADO:</b><i>'.$__QUERY.'</i>  <b>...OK!</b></p>';
+						echo '<p class=\'OK\'><b>CARGADO:</b><i>'.$__QUERY.'</i>  <b>...OK!</b></p>';
 					}else{
-						echo '<p><b>ERROR:</b><i>'.$__QUERY.'</i>  <b>'.$this->__CX->error.'</b></p>';
+						$__ERROR++;
+						echo '<p class=\'WRONG\'><b>ERROR:</b><i>'.$__QUERY.'</i>  <b>'.$this->__CX->error.'</b></p>';
 					}
 				}
 			}
 		}
-		echo '<b>COMPLETADO:</b> <i>EXITOSO.</i>';
+		echo '<b>COMPLETADO:</b> <i>EXITOSO, CON '.$__ERROR.' ERRORES</i>';
 		return TRUE;
+	}
+	
+	function BAJAS(){
+		$__QUERY = 'SELECT * FROM afiliados_dif WHERE NOT EXISTS (SELECT DNI FROM afiliados WHERE afiliados.DNI=afiliados_dif.DNI)';//SELECCIONA BAJAS
+		$__FEED = $this->__CX->query($__QUERY);
+		if($__FEED->num_rows){
+			while ($__DATA = $__FEED->fetch_assoc()){
+				$__QUERY = 'UPDATE afiliados_dif SET BAJA="'.strftime('%d/%m/%Y').'" WHERE DNI='.$__DATA['DNI'].';';
+				$__SUBFEED = $this->__CX->query($__QUERY);
+				if($__SUBFEED){
+					echo '<p class=\'WRONG\'><b>DADO DE BAJA: </b><i>'.implode(' | ', $__DATA).'</i></p>';
+				}
+			}
+		}		
+	}
+	
+	function DIFF(){
+		$__QUERY = 'SELECT * FROM afiliados WHERE NOT EXISTS (SELECT DNI FROM afiliados_dif WHERE afiliados_dif.DNI=afiliados.DNI)';//SELECCIONA NUEVOS
+		$__FEED = $this->__CX->query($__QUERY);
+		if($__FEED->num_rows){
+			$__DIFF = array();
+			while ($__DATA = $__FEED->fetch_assoc()){
+				$__ROW = array();
+				foreach($__DATA as $KEY=>$VALUE){
+					switch ($KEY){
+						case 'SECCION':
+							$__QUERY = 'SELECT DESCRIPCION FROM seccion WHERE SECCION="'.$__DATA['SECCION'].'";';
+							$__SUBFEED = $this->__CX->query($__QUERY);
+							$__SUBROW = $__SUBFEED->fetch_assoc();
+							$__ROW['DEPARTAMENTO'] = $__SUBROW['DESCRIPCION'];
+							break;
+							
+						case 'PROFESION':
+							$__QUERY = 'SELECT DESCRIPCION FROM profesion WHERE PROFESION="'.$__DATA['PROFESION'].'";';
+							$__SUBFEED = $this->__CX->query($__QUERY);
+							$__SUBROW = $__SUBFEED->fetch_assoc();
+							$__ROW['PROFESION'] = $__SUBROW['DESCRIPCION'];
+							break;
+							
+						case 'TIPO':
+							$__QUERY = 'SELECT DESCRIPCION FROM documento WHERE DOCUMENTO="'.$__DATA['TIPO'].'";';
+							$__SUBFEED = $this->__CX->query($__QUERY);
+							$__SUBROW = $__SUBFEED->fetch_assoc();
+							$__ROW['TIPO'] = $__SUBROW['DESCRIPCION'];
+							break;
+							
+						case 'CIRCUITO':
+							$__QUERY = 'SELECT DESCRIPCION FROM municipio WHERE MUNICIPIO IN (SELECT MUNICIPIO FROM circuito WHERE CIRCUITO="'.$__DATA['CIRCUITO'].'");';
+							$__SUBFEED = $this->__CX->query($__QUERY);
+							$__SUBROW = $__SUBFEED->fetch_assoc();
+							$__ROW['MUNICIPIO'] = $__SUBROW['DESCRIPCION'];
+							break;
+														
+						default:
+							$__ROW[$KEY] = $VALUE;
+							break;						
+					}					
+				}
+				$__ORDER = array('DEPARTAMENTO', 'MUNICIPIO', 'SEXO', 'CLASE', 'TIPO', 'DNI', 'APELLIDO', 'NOMBRE', 'CALLE', 'NUMERO', 'PUERTA', 'ANALFABETO', 'PROFESION', 'ALTA', 'BAJA');
+				$__REROW = array();
+				foreach($__ORDER as $UPVALUE){
+					foreach($__ROW as $KEY=>$VALUE){
+						if($KEY==$UPVALUE){
+							$__REROW[$UPVALUE]=$VALUE;
+						}else{
+							switch ($KEY){
+								case 'SECCION':
+									$__REROW['DEPARTAMENTO']=$VALUE;
+									break;
+								
+								case 'CIRCUITO':
+									$__REROW['MUNICIPIO']=$VALUE;
+									break;
+							}
+						}
+					}
+				}
+				$__DIFF[] = $__REROW;	
+			}
+			foreach($this->ENCODE($__DIFF) as $VALUE){
+				$__QUERY = 'INSERT INTO afiliados_dif ('.implode(',',array_keys($VALUE)).') VALUES (\''.implode('\',\'',$VALUE).'\')';
+				$__FEED = $this->__CX->query($__QUERY);
+				if($__FEED){
+					echo '<p class=\'OK\'><b>CARGADO:</b><i>'.$__QUERY.'</i>  <b>...OK!</b></p>';
+				}else{
+					echo '<p class=\'WRONG\'><b>ERROR:</b><i>'.$__QUERY.'</i>  <b>'.$this->__CX->error.'</b></p>';
+				}
+			}
+			//return $__DIFF;
+		}else{
+			//return 0;
+		}
 	}
 	
 	function ENCODE($_VAR){
@@ -121,8 +217,9 @@ class Monster {
 		return $_TEMP;
 	}
 	
-	function MOSTRAR($__QUERY){
+	function MOSTRAR(){
 		$__RETURN	= array();
+		$__QUERY = 'SELECT * FROM afiliados_dif';
 		$__FEED = $this->__CX->query($__QUERY);
 		if($__FEED->num_rows){
 			while ($__DATA = $__FEED->fetch_assoc()){

@@ -2,7 +2,12 @@ body {
 text-transform: uppercase;
 font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
-
+.OK{
+	background-color:#33CC33;
+}
+.WRONG{
+	background-color:#CC0000;
+}
 tr:nth-child(2n+2){
 background-color:#FFFFFF;
 }
