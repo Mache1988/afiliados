@@ -20,12 +20,25 @@ class Monster {
 		if($this->__CX->connect_error){
 			echo '__NO SE PUEDE ESTABLECER CONEXION A LA BASE DE DATOS__<br>';
 		}else{
-			/*$this->__BUSCAR = $this->TRIM_ARRAY($this->ENCODE(array_slice($_REQUEST,0,-1)));
-			$this->__CARGAR	= $this->ENCODE(array_slice($_REQUEST,1,-1));
-			$this->__ACTUALIZAR = $this->ENCODE(array_slice($_REQUEST,0,-1));*/
+			$this->__BUSCAR = $this->TRIM_ARRAY($this->ENCODE(array_slice($_REQUEST,0,-1)));
+			$this->__CARGAR	= $this->ENCODE(array_slice($_REQUEST,0,-1));
+			$this->__ACTUALIZAR = $this->ENCODE(array_slice($_REQUEST,0,-1));
 		}
 	}
-	
+	function COLS($table){
+		$header = array();
+		$__QUERY = 'SHOW COLUMNS FROM '.$table.';';
+		$__FEED = $this->__CX->query($__QUERY);
+		if($__FEED->num_rows){
+			while ($__DATA = $__FEED->fetch_assoc()){
+				$header[]	= $__DATA['Field'];
+			}
+			return $header;
+		}else{
+			return 0;
+		}
+		
+	}
 	function LOADCSV($filename='',$table=NULL, $delimiter=',', $header=NULL){
 		if(!file_exists($filename) || !is_readable($filename)){
 			echo '<b>ERROR:</b> <i>No se pudo acceder al archivo.</i>';
@@ -151,7 +164,7 @@ class Monster {
 				$__DIFF[] = $__REROW;	
 			}
 			foreach($this->ENCODE($__DIFF) as $VALUE){
-				$__QUERY = 'INSERT INTO afiliados_dif ('.implode(',',array_keys($VALUE)).') VALUES (\''.implode('\',\'',$VALUE).'\')';
+				$__QUERY = 'REPLACE INTO afiliados_dif ('.implode(',',array_keys($VALUE)).') VALUES (\''.implode('\',\'',$VALUE).'\')';
 				$__FEED = $this->__CX->query($__QUERY);
 				if($__FEED){
 					echo '<p class=\'OK\'><b>CARGADO:</b><i>'.$__QUERY.'</i>  <b>...OK!</b></p>';
@@ -240,7 +253,7 @@ class Monster {
 			$__CAT[] = $KEY.' LIKE \'%'.$VALUE.'%\'';
 		}
 		if(current($__CAT)){
-			$__QUERY 	= 'SELECT * FROM SSSALUD WHERE '.implode(' AND ', $__CAT).' ;';
+			$__QUERY 	= 'SELECT * FROM afiliados_dif WHERE '.implode(' AND ', $__CAT).' ;';
 			$__FEED = $this->__CX->query($__QUERY);
 			if($__FEED->num_rows){
 				while ($__DATA = $__FEED->fetch_assoc()){
@@ -256,7 +269,7 @@ class Monster {
 	}
 
 	function CARGAR(){
-		$__QUERY = 'INSERT INTO SSSALUD ('.implode(',',array_keys($this->__CARGAR)).') VALUES (\''.implode('\',\'',$this->__CARGAR).'\')';
+		$__QUERY = 'INSERT INTO afiliados_dif ('.implode(',',array_keys($this->__CARGAR)).') VALUES (\''.implode('\',\'',$this->__CARGAR).'\')';
 		$__FEED = $this->__CX->query($__QUERY);
 		if($__FEED){
 			return 1;
@@ -266,7 +279,7 @@ class Monster {
 	}
 	
 	function ACTUALIZAR(){
-		$__QUERY='REPLACE INTO SSSALUD ('.implode(',',array_keys($this->__ACTUALIZAR)).') VALUES ("'.implode('","',$this->__ACTUALIZAR).'");';
+		$__QUERY='REPLACE INTO afiliados_dif ('.implode(',',array_keys($this->__ACTUALIZAR)).') VALUES ("'.implode('","',$this->__ACTUALIZAR).'");';
 		$__FEED = $this->__CX->query($__QUERY);
 		//echo $__QUERY;
 		if($__FEED){

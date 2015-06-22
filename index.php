@@ -2,36 +2,34 @@
 <html>
 <head>
 <script src="jquery-1.11.3.js"></script>
-
-
 <link rel="stylesheet" type="text/css" href="agenda.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 <meta charset="ISO-8859-1">
-<title>AGENDA</title>
+<title>AFILIADOS</title>
 </head>
 <body>
 <form action='#' method='GET'>
 <table>
+<?php
+require 'monster.php';
+$__MON		= new Monster();
 
+?>
 	<tr>
-		<th>ID</th>
-		<th>[ESTABLECIMIENTO]NOMBRE</th>
-		<th>TELEFONO/S</th>
-		<th>[CARGO]RESPONSABLE</th>
-		<th>DIRECCION</th>
-		<th>OBSERVACIONES</th>
-		<th>AUTOR</th>
+		<?php 
+		foreach($__MON->COLS('afiliados_dif') as $COL){
+			echo '<th>'.$COL.'</th>';
+		}
+		?>
 		<th colspan=4>OPCIONES</th>		
 	</tr>
 
 	<tr id='BUSCAR'>
-		<td><input name='ID' size='3'></td>
-		<td><textarea name='ESTABLECIMIENTO'rows='1' cols='35'></textarea></td>
-		<td><textarea name='TELEFONO'rows='1' cols='35'></textarea></td>
-		<td><textarea name='RESPONSABLE'rows='1' cols='35'></textarea></td>
-		<td><textarea name='DIRECCION'rows='1' cols='35'></textarea></td>
-		<td><textarea name='OBSERVACIONES'rows='1' cols='35'></textarea></td>
-		<td><input name='AUTOR' size='3'></td>
+		<?php 
+		foreach($__MON->COLS('afiliados_dif') as $COL){
+			echo '<td><textarea name=\''.$COL.'\'></textarea></td>';
+		}
+		?>
 		<td><table>
 		<tr><td><button id='AGREGAR' name='ACCION' value='AGREGAR' >AGREGAR</button></td></tr>
 		<tr><td><button id='ACTUALIZAR' name='ACCION' value='ACTUALIZAR' >ACTUALIZAR</button></td></tr>

@@ -8,15 +8,15 @@ font-family: "Trebuchet MS", Helvetica, sans-serif;
 .WRONG{
 	background-color:#CC0000;
 }
-tr:nth-child(2n+2){
+.EVEN{
 background-color:#FFFFFF;
 }
 
-tr:nth-child(2n+3){
+.ODD{
 background-color:#009933;
 }
 
-tr:nth-child(n+2):hover{
+#RESULTADO tr:nth-child(n+2):hover{
 background-color:#66FF66;
 }
 
@@ -29,10 +29,9 @@ border-radius:5px;
 }
 
 textarea {
-width: 10em;
-height: 7em;
+width: 90%;
+height: 2em;
 border-radius:5px;
-margin:2px;
 }
 
 input {
